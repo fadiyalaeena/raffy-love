@@ -33,7 +33,8 @@ background:linear-gradient(
 /* CARD */
 
 .card{
-background:white;
+background:rgba(255,255,255,0.75);
+backdrop-filter:blur(10px);
 padding:35px;
 border-radius:30px;
 text-align:center;
@@ -41,11 +42,29 @@ width:370px;
 box-shadow:0 10px 30px rgba(0,0,0,0.15);
 z-index:10;
 position:relative;
+animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+
+0%{
+transform:translateY(0);
+}
+
+50%{
+transform:translateY(-8px);
+}
+
+100%{
+transform:translateY(0);
+}
+
 }
 
 h1{
 color:#ff4f81;
 margin-bottom:10px;
+font-size:32px;
 }
 
 p{
@@ -60,6 +79,7 @@ width:80%;
 border-radius:15px;
 border:1px solid #ddd;
 outline:none;
+font-size:15px;
 }
 
 button{
@@ -67,7 +87,11 @@ margin-top:20px;
 padding:12px 24px;
 border:none;
 border-radius:20px;
-background:#ff4f81;
+background:linear-gradient(
+135deg,
+#ff6fa5,
+#ff4f81
+);
 color:white;
 font-size:16px;
 cursor:pointer;
@@ -78,80 +102,71 @@ button:hover{
 transform:scale(1.08);
 }
 
-/* FLOWER */
+/* FLOWERS */
 
-.flower{
+.flowerRain{
 position:absolute;
-bottom:-100px;
-width:180px;
-height:180px;
-opacity:0;
-transition:2s;
-}
-
-.petal{
-position:absolute;
-width:70px;
-height:70px;
-background:#ff6fa5;
-border-radius:50%;
-left:55px;
-top:55px;
-transform-origin:center;
-}
-
-.p1{ transform:translateY(-45px); }
-.p2{ transform:translateY(45px); }
-.p3{ transform:translateX(-45px); }
-.p4{ transform:translateX(45px); }
-
-.center{
-position:absolute;
-width:60px;
-height:60px;
-background:#ffd54f;
-border-radius:50%;
-left:60px;
-top:60px;
-}
-
-.stem{
-position:absolute;
-width:10px;
-height:150px;
-background:#3cb371;
-left:85px;
-top:120px;
-border-radius:20px;
-}
-
-/* HEARTS */
-
-.heart{
-position:absolute;
-font-size:20px;
+font-size:28px;
 animation:fall linear infinite;
+pointer-events:none;
 }
 
 @keyframes fall{
 
 from{
-transform:translateY(-100px);
+transform:
+translateY(-100px)
+rotate(0deg);
+
 opacity:1;
 }
 
 to{
-transform:translateY(100vh);
+transform:
+translateY(110vh)
+rotate(360deg);
+
 opacity:0;
 }
 
 }
 
 #message{
-margin-top:20px;
+margin-top:25px;
 font-weight:bold;
 color:#ff4f81;
-min-height:40px;
+min-height:60px;
+line-height:1.8;
+font-size:16px;
+}
+
+.sparkle{
+position:absolute;
+width:5px;
+height:5px;
+background:white;
+border-radius:50%;
+animation:twinkle 2s infinite;
+opacity:0.8;
+}
+
+@keyframes twinkle{
+
+0%{
+opacity:0.2;
+transform:scale(1);
+}
+
+50%{
+opacity:1;
+transform:scale(1.8);
+}
+
+100%{
+opacity:0.2;
+transform:scale(1);
+}
+
 }
 
 </style>
@@ -160,41 +175,31 @@ min-height:40px;
 <body>
 
 <!-- MUSIC -->
-<audio id="bgmusic" src="lagu.mp3"></audio>
-
-<!-- FLOWER -->
-<div class="flower" id="flower">
-
-<div class="petal p1"></div>
-<div class="petal p2"></div>
-<div class="petal p3"></div>
-<div class="petal p4"></div>
-
-<div class="center"></div>
-
-<div class="stem"></div>
-
-</div>
+<audio
+id="bgmusic"
+src="lagu.mp3"
+loop>
+</audio>
 
 <!-- CARD -->
 <div class="card">
 
-<h1>hey you 💖</h1>
+<h1>haiii 💖</h1>
 
 <p>
-type your name first 😳
+masukin nama kamuu 😳
 </p>
 
 <input
 type="text"
 id="nameInput"
-placeholder="your name..."
+placeholder="masukin nama kamuu 😳"
 >
 
 <br>
 
 <button onclick="startLove()">
-click me fr
+click me fr 🌸
 </button>
 
 <div id="message"></div>
@@ -218,63 +223,121 @@ document.getElementById(
 if(name === ""){
 
 message.innerHTML =
-"bro at least type your name 😭";
+"minimal masukin nama dulu 😭";
 
 return;
 
 }
 
-// MUSIC
+// PLAY MUSIC
 document.getElementById(
 "bgmusic"
 ).play();
 
 // MESSAGE
 message.innerHTML =
-`hey ${name} 💖<br>
-alena lowkey made this for u 😔`;
 
-// FLOWER BLOOM
-const flower =
-document.getElementById(
-"flower"
-);
+`haii ${name} 💖<br><br>
 
-flower.style.opacity = "1";
+have a good day yaa! 🌸<br>
 
-flower.style.transform =
-"translateY(-180px) scale(1.2) rotate(360deg)";
+this flower for u 🌹<br><br>
+
+from alena cantik 😋`;
+
+
+// MASSIVE FLOWER RAIN
+
+for(let i=0; i<120; i++){
+
+setTimeout(()=>{
+createFlower();
+}, i*80);
 
 }
 
-// HEART RAIN
+}
 
-function createHeart(){
+// FLOWER FUNCTION
 
-const heart =
+function createFlower(){
+
+const flower =
 document.createElement("div");
 
-heart.classList.add("heart");
+flower.classList.add(
+"flowerRain"
+);
 
-heart.innerHTML = "💖";
+const flowers = [
 
-heart.style.left =
+"🌹",
+"🌺",
+"🌸",
+"💮",
+"🌷"
+
+];
+
+flower.innerHTML =
+
+flowers[
+Math.floor(
+Math.random()*flowers.length
+)
+];
+
+flower.style.left =
 Math.random()*100 + "vw";
 
-heart.style.animationDuration =
-(Math.random()*3+2)+"s";
+flower.style.animationDuration =
+(Math.random()*4+4)+"s";
+
+flower.style.fontSize =
+(Math.random()*30+20)+"px";
 
 document.body.appendChild(
-heart
+flower
 );
 
 setTimeout(()=>{
-heart.remove();
-},5000);
+
+flower.remove();
+
+},8000);
 
 }
 
-setInterval(createHeart,300);
+// SPARKLES
+
+function createSparkle(){
+
+const sparkle =
+document.createElement("div");
+
+sparkle.classList.add(
+"sparkle"
+);
+
+sparkle.style.left =
+Math.random()*100 + "vw";
+
+sparkle.style.top =
+Math.random()*100 + "vh";
+
+document.body.appendChild(
+sparkle
+);
+
+setTimeout(()=>{
+
+sparkle.remove();
+
+},2000);
+
+}
+
+setInterval(createSparkle,200);
 
 </script>
 
